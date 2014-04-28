@@ -23,7 +23,7 @@ class AudioAddict:
                 'rock': 'RockRadio.com'
                 }
         self.service = None
-        self.streamlist = {}
+        self.streamlist = []
         # Can't get AAC to play back, so MP3-only for now.
         self.validstreams = [
                 'public3',
@@ -118,7 +118,7 @@ class AudioAddict:
     def get_streamlist(self, refresh=False):
         """Get the master channel (stream) list."""
 
-        if len(self.streamlist.keys()) < 1 or refresh == True:
+        if len(self.streamlist) < 1 or refresh == True:
             try:
                 # Pull from public3 because it's the only endpoint common to
                 # all services.
