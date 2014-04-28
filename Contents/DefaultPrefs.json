@@ -1,0 +1,20 @@
+[
+    {
+       "id": "listen_key",
+       "type": "text",
+       "label": "Listen Key",
+       "default": ""
+    },
+    {
+        "id": "stream_pref",
+        "type": "text",
+        "label": "Preferred Stream",
+        "default": ""
+    },
+    {
+        "id": "source_pref",
+        "type": "text",
+        "label": "Preferred Source",
+        "default": ""
+    }
+]
