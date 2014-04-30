@@ -56,11 +56,14 @@ def ValidatePrefs():
 def MusicMainMenu():
     """The desired service is selected here."""
 
-    oc = ObjectContainer(view_group='InfoList')
+    oc = ObjectContainer(view_group='List')
 
-    for serv, service in AA.get_validservices().items():
+    services = AA.get_validservices()
+
+    for serv in sorted(services, key=services.get):
         oc.add(DirectoryObject(
-            key=Callback(GetChannels, serv=serv), title=service
+            key=Callback(GetChannels, serv=serv),
+            title=services[serv]
         ))
 
     return oc
@@ -74,10 +77,12 @@ def GetChannels(serv):
     AA.set_listenkey(Prefs['listen_key'])
     AA.set_streampref(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
+    #TODO: Prefs['force_refresh'] boolean which clears the chanlist and
+    # the Dict (streamurls).
 
-    oc = ObjectContainer(title1='Channel', title2=AA.get_servicename(serv))
+    oc = ObjectContainer(title1=AA.get_servicename(serv))
 
-    for channel in AA.get_streamlist(refresh=True):
+    for channel in AA.get_chanlist(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
         # over and over.
         if not channel['key'] in Dict:
@@ -92,7 +97,6 @@ def GetChannels(serv):
 
     return oc
 
-# Build yon streamable object, ye mighty.
 @route(MUSIC_PREFIX + '/channel')
 def CreateChannelObject(url, title, summary, fmt, include_container=False):
     """Build yon streamable object, ye mighty."""
@@ -122,7 +126,7 @@ def CreateChannelObject(url, title, summary, fmt, include_container=False):
                 ],
                 container=container,
                 audio_codec=audio_codec,
-                bitrate=128,
+                bitrate=128,    # this is never correct :P
                 audio_channels=2
             )
         ]
