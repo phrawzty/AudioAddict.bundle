@@ -10,20 +10,19 @@ import random
 class AudioAddict:
     """AudioAddict utility class."""
 
-
     def __init__(self):
         """Init. You know."""
-
 
         self.listenkey = None
         self.validservices = {
                 'sky': 'Sky.fm',
                 'di': 'DI.fm',
-                'jazz': 'JazzRadio.com',
-                'rock': 'RockRadio.com'
+                'jazzradio': 'JazzRadio.com',
+                'rockradio': 'RockRadio.com'
                 }
+        self.apihost = 'api.audioaddict.com'
         self.service = None
-        self.streamlist = []
+        self.chanlist = []
         # Can't get AAC to play back, so MP3-only for now.
         self.validstreams = [
                 'public3',
@@ -33,6 +32,22 @@ class AudioAddict:
         # public3 is the only endpoint common to all services.
         self.streampref = 'public3'
         self.sourcepref = None
+        self.currentchan = None
+
+    def get_apihost(self, url=True, ssl=False):
+        """Get the AA API host; normally used as part of a URL."""
+
+        if url == False:
+            return self.apihost
+
+        obj = '://' + self.apihost + '/v1/'
+
+        if ssl == True:
+            obj = 'https' + obj
+        else:
+            obj = 'http' + obj
+
+        return obj
 
     def set_listenkey(self, listenkey=None):
         """Set the listen_key."""
@@ -40,7 +55,7 @@ class AudioAddict:
         self.listenkey = listenkey
 
     def get_listenkey(self, url=True):
-        """Get the listen_key; generally only used as part of a URL."""
+        """Get the listen_key; normally used as part of a URL."""
 
         if self.listenkey == None:
             return ''
@@ -87,9 +102,9 @@ class AudioAddict:
             return 'http://listen.di.fm'
         elif self.get_service() == 'sky':
             return 'http://listen.sky.fm'
-        elif self.get_service() == 'rock':
+        elif self.get_service() == 'rockradio':
             return 'http://listen.rockradio.com'
-        elif self.get_service() == 'jazz':
+        elif self.get_service() == 'jazzradio':
             return 'http://listen.jazzradio.com'
 
     def set_streampref(self, stream=None):
@@ -115,19 +130,43 @@ class AudioAddict:
 
         return self.sourcepref
 
-    def get_streamlist(self, refresh=False):
-        """Get the master channel (stream) list."""
+    def get_chanlist(self, refresh=False):
+        """Get the master channel list."""
 
-        if len(self.streamlist) < 1 or refresh == True:
+        if len(self.chanlist) < 1 or refresh == True:
             try:
                 # Pull from public3 because it's the only endpoint common to
                 # all services.
                 data = urllib.urlopen(self.get_serviceurl() + '/' + self.get_streampref())
-                self.streamlist = json.loads(data.read())
+                self.chanlist = json.loads(data.read())
             except Exception:
                 raise
 
-        return self.streamlist
+        return self.chanlist
+
+    def get_chaninfo(self, key):
+        """Get the info for a particular channel."""
+
+        chaninfo = None
+
+        for chan in self.get_chanlist():
+            if chan['key'] == key:
+                chaninfo = chan.copy()
+
+        if chaninfo == None:
+            raise Exception('Invalid channel')
+
+        return chaninfo
+
+    def set_currentchan(self, key):
+        """Set the current channel being streamed."""
+
+        self.currentchan = key
+
+    def get_currentchan(self):
+        """Get the current channel being streamed."""
+
+        return self.currentchan
 
     def get_streamurl(self, key):
         """Generate a streamable URL for a channel."""
