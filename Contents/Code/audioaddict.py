@@ -176,9 +176,6 @@ class AudioAddict:
         data = urllib.urlopen(channelurl)
         sources = json.loads(data.read())
 
-        # If there's no preferred source, just pick one at random.
-        # Otherwise, look through the list for a match to the preferred source.
-        # Fallback to random.
         streamurl = None
 
         # Look through the list for the preferred source.
@@ -187,7 +184,7 @@ class AudioAddict:
                 if self.get_sourcepref() in source:
                     streamurl = source
 
-        # If there is no preferred source or one was not found, pick at random.
+        # Fallback to random.
         if streamurl == None:
             streamurl = (random.choice(sources))
 
