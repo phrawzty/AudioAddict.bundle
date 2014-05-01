@@ -32,7 +32,6 @@ class AudioAddict:
         # public3 is the only endpoint common to all services.
         self.streampref = 'public3'
         self.sourcepref = None
-        self.currentchan = None
 
     def get_apihost(self, url=True, ssl=False):
         """Get the AA API host; normally used as part of a URL."""
@@ -40,7 +39,7 @@ class AudioAddict:
         if url == False:
             return self.apihost
 
-        obj = '://' + self.apihost + '/v1/'
+        obj = '://' + self.apihost + '/v1'
 
         if ssl == True:
             obj = 'https' + obj
@@ -158,16 +157,6 @@ class AudioAddict:
 
         return chaninfo
 
-    def set_currentchan(self, key):
-        """Set the current channel being streamed."""
-
-        self.currentchan = key
-
-    def get_currentchan(self):
-        """Get the current channel being streamed."""
-
-        return self.currentchan
-
     def get_streamurl(self, key):
         """Generate a streamable URL for a channel."""
 
@@ -184,8 +173,34 @@ class AudioAddict:
                 if self.get_sourcepref() in source:
                     streamurl = source
 
-        # Fallback to random.
+        # If there is no preferred source or one was not found, pick at random.
         if streamurl == None:
             streamurl = (random.choice(sources))
 
         return streamurl
+
+    def get_chanhist(self, key):
+        """Get track history for a channel."""
+
+        servurl = self.get_apihost() + '/' + self.get_service() + '/' + 'track_history/channel/' + str(self.get_chaninfo(key)['id'])
+
+        data = urllib.urlopen(servurl)
+        history = json.loads(data.read())
+
+        return history
+
+    def get_nowplaying(self, key):
+        """Get current track for a channel."""
+
+        # Normally the current song is position 0, but if an advertisement
+        # was played in the public stream, it will pollute the history -
+        # in that case, we pick the track from position 1.
+
+        track = 'Unknown - Unknown'
+
+        if not 'ad' in self.get_chanhist(key)[0]:
+            track = self.get_chanhist(key)[0]['track']
+        else:
+            track = self.get_chanhist(key)[1]['track']
+
+        return track
