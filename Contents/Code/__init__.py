@@ -92,13 +92,21 @@ def GetChannels(serv):
             url=Dict[channel['key']],
             title=channel['name'],
             summary=channel['description'],
-            fmt='mp3'
+            fmt='mp3',
+            thumb=AA.get_chanthumb(channel['key'])
         ))
 
     return oc
 
 @route(MUSIC_PREFIX + '/channel')
-def CreateChannelObject(url, title, summary, fmt, include_container=False):
+def CreateChannelObject(
+        url,
+        title,
+        summary,
+        fmt,
+        thumb,
+        include_container=False
+    ):
     """Build yon streamable object, ye mighty."""
 
     if fmt == 'mp3':
@@ -119,6 +127,7 @@ def CreateChannelObject(url, title, summary, fmt, include_container=False):
         rating_key=url,
         title=title,
         summary=summary,
+        thumb=thumb,
         items=[
             MediaObject(
                 parts=[
