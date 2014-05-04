@@ -32,6 +32,13 @@ class AudioAddict:
         # public3 is the only endpoint common to all services.
         self.streampref = 'public3'
         self.sourcepref = None
+        # These mark the locations of embedded channel info blobs in the
+        # home pages for each service.
+        self.extinfostring = {
+                'sky': "NS('AudioAddict.API.Config').channels",
+                'di': "NS('AudioAddict').Channels"
+                }
+        self.extinfo = []
 
     def get_apihost(self, url=True, ssl=False):
         """Get the AA API host; normally used as part of a URL."""
@@ -84,6 +91,9 @@ class AudioAddict:
     def get_servicename(self, serv=None):
         """Get the name of a given service."""
 
+        if serv == None:
+            serv = self.get_service()
+
         if not serv in self.get_validservices().keys():
             raise Exception('Invalid service')
 
@@ -94,17 +104,16 @@ class AudioAddict:
 
         return self.validstreams
 
-    def get_serviceurl(self):
+    def get_serviceurl(self, serv=None, prefix='listen'):
         """Get the service URL for the service we're using."""
 
-        if self.get_service() == 'di':
-            return 'http://listen.di.fm'
-        elif self.get_service() == 'sky':
-            return 'http://listen.sky.fm'
-        elif self.get_service() == 'rockradio':
-            return 'http://listen.rockradio.com'
-        elif self.get_service() == 'jazzradio':
-            return 'http://listen.jazzradio.com'
+        if serv == None:
+            serv = self.get_service()
+
+        url = 'http://' + prefix + '.' + self.get_servicename(serv)
+        url = url.lower()
+
+        return url
 
     def set_streampref(self, stream=None):
         """Set the preferred stream."""
@@ -204,3 +213,82 @@ class AudioAddict:
             track = self.get_chanhist(key)[1]['track']
 
         return track
+
+    def get_extinfostring(self, serv=None):
+        """Get the infostring (search marker) for a service."""
+
+        if serv == None:
+            serv = self.get_service()
+
+        infostring = None
+        if serv in self.extinfostring:
+            infostring = self.extinfostring[serv]
+
+        return infostring
+
+    def get_extinfo(self, serv=None, refresh=False):
+        """Set the extended channel info for a service."""
+
+        # If we've already polled for extinfo, don't do it again.
+        if len(self.extinfo) > 0 and refresh == False:
+            return self.extinfo
+
+        # This scrapes the home page of a service for the embedded extended
+        # channel info blob. There is probably a way to get this from the API.
+        # Pull requests welcome. :)
+
+        if serv == None:
+            serv = self.get_service()
+
+        json_list = []
+        json_dict = {}
+        json_converted = []
+
+        data = urllib.urlopen(self.get_serviceurl(prefix='www'))
+        page = data.readlines()
+
+        findme = self.get_extinfostring(self.get_service())
+
+        for line in page:
+            if findme in line:
+                # We don't want the preamble (only the json blob) so find where
+                # in the line the blob begins then extract it and strip the
+                # whitespace. The result will have a semi-colon at the end;
+                # Remove that then load the blob as a json object.
+                if serv == 'sky':
+                    # This page uses an array to frame the blob.
+                    pos = line.find('[')
+                    json_blob = line[pos:].strip()
+                    json_blob = json_blob[:-1]
+                    json_list = json.loads(json_blob)
+
+                    # Flatten the contents.
+                    for channel in json_list:
+                        json_converted.append(channel['channel'])
+
+                if serv == 'di':
+                    # This page has no array - just the dict blob.
+                    pos = line.find('{')
+                    json_blob = line[pos:].strip()
+                    json_blob = json_blob[:-1]
+                    json_dict = json.loads(json_blob)
+
+                    # Flatten the contents.
+                    for chanid in json_dict.keys():
+                        json_converted.append(json_dict[chanid])
+
+        self.extinfo = json_converted
+        return self.extinfo
+
+    def get_chanthumb(self, key):
+        """Get the thumbnail for a channel."""
+
+        thumb = None
+
+        for channel in self.get_extinfo():
+            if 'key' in channel.keys():
+                if channel['key'] == key:
+                    thumb = channel['asset_url']
+
+        return thumb
+
