@@ -9,7 +9,7 @@ AA = AudioAddict()
 # Plex
 MUSIC_PREFIX = '/music/audioaddict'
 
-NAME = L('Title')
+NAME = 'AudioAddict'
 
 # make sure to replace artwork with what you want
 # these filenames reference the example files in
@@ -22,27 +22,13 @@ ICON = 'icon-default.png'
 def Start():
     """This is called when the plugin is loaded."""
 
-    ## make this plugin show up in the 'Music' section
-    ## in Plex. The L() function pulls the string out of the strings
-    ## file in the Contents/Strings/ folder in the bundle
-    ## see also:
-    ##  http://dev.plexapp.com/docs/mod_Plugin.html
-    ##  http://dev.plexapp.com/docs/Bundle.html#the-strings-directory
-    Plugin.AddPrefixHandler(MUSIC_PREFIX, MusicMainMenu, NAME, ICON, ART)
-
-    Plugin.AddViewGroup('InfoList', viewMode='InfoList', mediaType='items')
-    Plugin.AddViewGroup('List', viewMode='List', mediaType='items')
-
     ## set some defaults so that you don't have to
     ## pass these parameters to these object types
     ## every single time
     ## see also:
     ##  http://dev.plexapp.com/docs/Objects.html
-    MediaContainer.title1 = NAME
-    MediaContainer.viewGroup = "List"
-    MediaContainer.art = R(ART)
-    DirectoryItem.thumb = R(ICON)
-    VideoItem.thumb = R(ICON)
+    ObjectContainer.title1 = NAME
+    DirectoryObject.thumb = R(ICON)
 
     HTTP.CacheTime = CACHE_1HOUR
 
@@ -52,11 +38,11 @@ def ValidatePrefs():
     pass
 
 
-@handler(MUSIC_PREFIX, 'Service Selector')
+@handler(MUSIC_PREFIX, NAME, art=ART, thumb=ICON)
 def MusicMainMenu():
     """The desired service is selected here."""
 
-    oc = ObjectContainer(view_group='List')
+    oc = ObjectContainer()
 
     services = AA.get_validservices()
 
