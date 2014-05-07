@@ -1,9 +1,9 @@
 [
     {
-       "id": "listen_key",
-       "type": "text",
-       "label": "Listen Key",
-       "default": ""
+        "id": "listen_key",
+        "type": "text",
+        "label": "Listen Key",
+        "default": ""
     },
     {
         "id": "stream_pref",
