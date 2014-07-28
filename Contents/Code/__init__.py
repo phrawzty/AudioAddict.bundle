@@ -79,7 +79,7 @@ def GetChannels(serv):
             title=channel['name'],
             summary=channel['description'],
             fmt='mp3',
-            thumb=AA.get_chanthumb(channel['key'])
+            thumb=AA.get_batch_chanthumb(channel['key'])
         ))
 
     return oc
