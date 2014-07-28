@@ -3,7 +3,7 @@
 # pylint: disable=line-too-long, old-style-class, broad-except
 # This is based entirely on http://tobiass.eu/api-doc.html (thanks!)
 
-import urllib
+import urllib2
 import json
 import random
 
@@ -39,6 +39,9 @@ class AudioAddict:
                 'di': "NS('AudioAddict').Channels"
                 }
         self.extinfo = []
+        # The batch endpoint requires a static dummy auth header.
+        self.authheader = ['Authorization', 'Basic ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA=']
+        self.batchinfo = {}
 
     def get_apihost(self, url=True, ssl=False):
         """Get the AA API host; normally used as part of a URL."""
@@ -145,7 +148,7 @@ class AudioAddict:
             try:
                 # Pull from public3 because it's the only endpoint common to
                 # all services.
-                data = urllib.urlopen(self.get_serviceurl() + '/' + self.get_streampref())
+                data = urllib2.urlopen(self.get_serviceurl() + '/' + self.get_streampref())
                 self.chanlist = json.loads(data.read())
             except Exception:
                 raise
@@ -171,7 +174,7 @@ class AudioAddict:
 
         channelurl = self.get_serviceurl() + '/' + self.get_streampref() + '/' + key + self.get_listenkey()
 
-        data = urllib.urlopen(channelurl)
+        data = urllib2.urlopen(channelurl)
         sources = json.loads(data.read())
 
         streamurl = None
@@ -193,7 +196,7 @@ class AudioAddict:
 
         servurl = self.get_apihost() + '/' + self.get_service() + '/' + 'track_history/channel/' + str(self.get_chaninfo(key)['id'])
 
-        data = urllib.urlopen(servurl)
+        data = urllib2.urlopen(servurl)
         history = json.loads(data.read())
 
         return history
@@ -244,7 +247,7 @@ class AudioAddict:
         json_dict = {}
         json_converted = []
 
-        data = urllib.urlopen(self.get_serviceurl(prefix='www'))
+        data = urllib2.urlopen(self.get_serviceurl(prefix='www'))
         page = data.readlines()
 
         findme = self.get_extinfostring(self.get_service())
@@ -292,3 +295,30 @@ class AudioAddict:
 
         return thumb
 
+    def get_batchinfo(self, refresh=False):
+        """Get the massive batch info blob."""
+
+        if (len(self.batchinfo) > 0) and refresh == False:
+            return self.batchinfo
+
+        url = self.get_apihost() + '/' + self.get_service() + '/mobile/batch_update?stream_set_key=' + self.get_streampref()
+
+        req = urllib2.Request(url)
+        req.add_header(*self.authheader)
+        data = urllib2.urlopen(req).read()
+
+        self.batchinfo = json.loads(data)
+
+        return self.batchinfo
+
+    def get_batch_chanthumb(self, key):
+        """Get the thumbnail for a channel from batchinfo."""
+
+        batch = self.get_batchinfo()
+
+        for filtre in batch['channel_filters']:
+            if filtre['name'] == 'All':
+                for channel in filtre['channels']:
+                    print channel['id'], channel['key'], channel['asset_url']
+                    if channel['key'] == key:
+                        return 'http:' + channel['asset_url']
