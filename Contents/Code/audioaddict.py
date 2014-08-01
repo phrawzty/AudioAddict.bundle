@@ -307,18 +307,19 @@ class AudioAddict:
         req.add_header(*self.authheader)
         data = urllib2.urlopen(req).read()
 
-        self.batchinfo = json.loads(data)
+        batch = json.loads(data)
 
-        return self.batchinfo
+        # Only the "All" channel filter is interesting for now.
+        for i in batch['channel_filters']:
+            if i['name'] == 'All':
+                self.batchinfo = i['channels']
+                return self.batchinfo
 
     def get_batch_chanthumb(self, key):
         """Get the thumbnail for a channel from batchinfo."""
 
         batch = self.get_batchinfo()
 
-        for filtre in batch['channel_filters']:
-            if filtre['name'] == 'All':
-                for channel in filtre['channels']:
-                    print channel['id'], channel['key'], channel['asset_url']
-                    if channel['key'] == key:
-                        return 'http:' + channel['asset_url']
+        for channel in batch:
+            if channel['key'] == key:
+                return 'http:' + channel['asset_url']
