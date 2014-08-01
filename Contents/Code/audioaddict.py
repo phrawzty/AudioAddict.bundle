@@ -323,3 +323,12 @@ class AudioAddict:
         for channel in batch:
             if channel['key'] == key:
                 return 'http:' + channel['asset_url']
+
+    def get_batch_chaninfo(self, key):
+        """Get the channel info for a particular channel."""
+
+        batch = self.get_batchinfo()
+
+        for channel in batch:
+            if channel['key'] == key:
+                return channel

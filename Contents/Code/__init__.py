@@ -68,7 +68,7 @@ def GetChannels(serv):
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
 
-    for channel in AA.get_chanlist(refresh=True):
+    for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
         # over and over.
         if not channel['key'] in Dict:
@@ -77,9 +77,9 @@ def GetChannels(serv):
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
             title=channel['name'],
-            summary=channel['key'],
+            summary=channel['description'],
             fmt='mp3',
-            thumb=AA.get_batch_chanthumb(channel['key'])
+            thumb='http:' + channel['asset_url']
         ))
 
     return oc
