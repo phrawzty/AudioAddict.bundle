@@ -77,7 +77,7 @@ def GetChannels(serv):
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
             title=channel['name'],
-            summary=channel['key'],
+            summary=channel['description'],
             fmt='mp3',
             thumb='http:' + channel['asset_url']
         ))
