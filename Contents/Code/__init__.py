@@ -61,12 +61,15 @@ def GetChannels(serv):
     # Set some preferences. It really makes life easier if they're set.
     AA.set_service(serv)
     AA.set_listenkey(Prefs['listen_key'])
-    AA.set_streampref(Prefs['stream_pref'])
+    AA.set_streampref_ext(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
     #TODO: Prefs['force_refresh'] boolean which clears the chanlist and
     # the Dict (streamurls).
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
+
+    fmt = AA.get_streamdetails_ext()['codec']
+    bitrate = AA.get_streamdetails_ext()['bitrate']
 
     for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
@@ -78,7 +81,8 @@ def GetChannels(serv):
             url=Dict[channel['key']],
             title=channel['name'],
             summary=channel['description'],
-            fmt='mp3',
+            fmt=fmt,
+            bitrate=bitrate,
             thumb='http:' + channel['asset_url']
         ))
 
@@ -90,6 +94,7 @@ def CreateChannelObject(
         title,
         summary,
         fmt,
+        bitrate,
         thumb,
         include_container=False
     ):
@@ -108,6 +113,7 @@ def CreateChannelObject(
             title=title,
             summary=summary,
             fmt=fmt,
+            bitrate=bitrate,
             include_container=True
             ),
         rating_key=url,
@@ -121,7 +127,7 @@ def CreateChannelObject(
                 ],
                 container=container,
                 audio_codec=audio_codec,
-                bitrate=128,    # this is never correct :P
+                bitrate=bitrate,
                 audio_channels=2
             )
         ]
