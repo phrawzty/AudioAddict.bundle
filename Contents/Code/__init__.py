@@ -104,7 +104,7 @@ def CreateChannelObject(
         container = Container.MP3
         audio_codec = AudioCodec.MP3
     elif fmt == 'aac':
-        container = 'mpegts'
+        container = Container.MP4
         audio_codec = AudioCodec.AAC
 
     track_object = TrackObject(
