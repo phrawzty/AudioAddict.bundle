@@ -107,18 +107,24 @@ def CreateChannelObject(
         container = Container.MP4
         audio_codec = AudioCodec.AAC
 
+    # Display details for debugging purposes.
+    debug_summary = []
+    debug_summary.append(summary)
+    debug_summary.append('[%s, %s]' % (fmt, bitrate))
+    debug_summary.append('[%s]' % url)
+
     track_object = TrackObject(
         key=Callback(CreateChannelObject,
             url=url,
             title=title,
-            summary=summary,
+            summary=' '.join(debug_summary),
             fmt=fmt,
             bitrate=bitrate,
             include_container=True
             ),
         rating_key=url,
         title=title,
-        summary=summary,
+        summary=' '.join(debug_summary),
         thumb=thumb,
         items=[
             MediaObject(
@@ -128,7 +134,8 @@ def CreateChannelObject(
                 container=container,
                 audio_codec=audio_codec,
                 bitrate=bitrate,
-                audio_channels=2
+                audio_channels=2,
+                optimized_for_streaming=True
             )
         ]
     )
