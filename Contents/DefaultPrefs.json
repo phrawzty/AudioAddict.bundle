@@ -16,5 +16,11 @@
         "type": "text",
         "label": "Preferred Source",
         "default": ""
+    },
+    {
+        "id": "force_refresh",
+        "type": "bool",
+        "label": "Force Refresh",
+        "default": "False"
     }
 ]

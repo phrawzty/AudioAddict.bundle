@@ -63,8 +63,6 @@ def GetChannels(serv):
     AA.set_listenkey(Prefs['listen_key'])
     AA.set_streampref_ext(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
-    #TODO: Prefs['force_refresh'] boolean which clears the chanlist and
-    # the Dict (streamurls).
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
 
@@ -74,8 +72,9 @@ def GetChannels(serv):
     for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
         # over and over.
-        if not channel['key'] in Dict:
+        if (not channel['key'] in Dict) or (Prefs['force_refresh'] == True):
             Dict[channel['key']] = AA.get_streamurl(channel['key'])
+            Log.Debug('saving %s' % Dict[channel['key']])
 
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
