@@ -25,7 +25,7 @@ class AudioAddict:
 
         # Each service proposes a selection of stream types.
         # It's worth noting that public3 is the *only* common type.
-        self.validstreams_ext = {
+        self.validstreams = {
             'di': {
                 'android_low':              { 'codec': 'aac', 'bitrate':  40 },
                 'android':                  { 'codec': 'aac', 'bitrate':  64 },
@@ -79,12 +79,6 @@ class AudioAddict:
                 'public3':                  { 'codec': 'mp3', 'bitrate':  96 },
             }
         }
-
-        self.validstreams = [
-            'public3',
-            'premium_high',
-            'android_premium_high' # rockradio only
-        ]
 
         self.streampref = 'public3'
         self.sourcepref = None
@@ -159,14 +153,9 @@ class AudioAddict:
         return self.validservices[serv]
 
     def get_validstreams(self):
-        """Get the list of valid streams."""
-
-        return self.validstreams
-
-    def get_validstreams_ext(self):
         """Get the list of valid streams (extended mix)."""
 
-        return self.validstreams_ext
+        return self.validstreams
 
     def get_serviceurl(self, serv=None, prefix='listen'):
         """Get the service URL for the service we're using."""
@@ -180,30 +169,22 @@ class AudioAddict:
         return url
 
     def set_streampref(self, stream=None):
-        """Set the preferred stream."""
-
-        if not stream in self.get_validstreams():
-            raise Exception('Invalid stream')
-
-        self.streampref = stream
-
-    def set_streampref_ext(self, stream=None):
         """Set the preferred stream (extended mix)."""
 
-        if not stream in self.get_validstreams_ext()[self.get_service()]:
+        if not stream in self.get_validstreams()[self.get_service()]:
             raise Exception('Invalid stream')
 
         self.streampref = stream
 
-    def get_streamdetails_ext(self):
+    def get_streamdetails(self):
         """Get the details for a stream (extended mix)."""
 
         details = {}
-        validstreams_ext = self.get_validstreams_ext()
+        validstreams = self.get_validstreams()
         stream = self.get_streampref()
 
-        if stream in validstreams_ext[self.get_service()]:
-            details = validstreams_ext[self.get_service()][stream]
+        if stream in validstreams[self.get_service()]:
+            details = validstreams[self.get_service()][stream]
 
         return details
 

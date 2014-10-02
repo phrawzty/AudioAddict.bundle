@@ -61,13 +61,13 @@ def GetChannels(serv):
     # Set some preferences. It really makes life easier if they're set.
     AA.set_service(serv)
     AA.set_listenkey(Prefs['listen_key'])
-    AA.set_streampref_ext(Prefs['stream_pref'])
+    AA.set_streampref(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
 
-    fmt = AA.get_streamdetails_ext()['codec']
-    bitrate = AA.get_streamdetails_ext()['bitrate']
+    fmt = AA.get_streamdetails()['codec']
+    bitrate = AA.get_streamdetails()['bitrate']
 
     for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
