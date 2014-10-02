@@ -74,7 +74,8 @@ def GetChannels(serv):
         # over and over.
         if (not channel['key'] in Dict) or (Prefs['force_refresh'] == True):
             Dict[channel['key']] = AA.get_streamurl(channel['key'])
-            Log.Debug('saving %s' % Dict[channel['key']])
+            if Prefs['debug']:
+                Log.Debug('saving %s' % Dict[channel['key']])
 
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
@@ -109,8 +110,9 @@ def CreateChannelObject(
     # Display details for debugging purposes.
     debug_summary = []
     debug_summary.append(summary)
-    debug_summary.append('[%s, %s]' % (fmt, bitrate))
-    debug_summary.append('[%s]' % url)
+    if Prefs['debug']:
+        debug_summary.append('[%s, %s]' % (fmt, bitrate))
+        debug_summary.append('[%s]' % url)
 
     track_object = TrackObject(
         key=Callback(CreateChannelObject,
