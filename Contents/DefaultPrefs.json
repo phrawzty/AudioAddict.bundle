@@ -22,5 +22,11 @@
         "type": "bool",
         "label": "Force Refresh",
         "default": "False"
+    },
+    {
+        "id": "debug",
+        "type": "bool",
+        "label": "Debug Output",
+        "default": "False"
     }
 ]
