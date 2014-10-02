@@ -63,22 +63,26 @@ def GetChannels(serv):
     AA.set_listenkey(Prefs['listen_key'])
     AA.set_streampref(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
-    #TODO: Prefs['force_refresh'] boolean which clears the chanlist and
-    # the Dict (streamurls).
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
+
+    fmt = AA.get_streamdetails()['codec']
+    bitrate = AA.get_streamdetails()['bitrate']
 
     for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
         # over and over.
-        if not channel['key'] in Dict:
+        if (not channel['key'] in Dict) or (Prefs['force_refresh'] == True):
             Dict[channel['key']] = AA.get_streamurl(channel['key'])
+            if Prefs['debug']:
+                Log.Debug('saving %s' % Dict[channel['key']])
 
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
             title=channel['name'],
             summary=channel['description'],
-            fmt='mp3',
+            fmt=fmt,
+            bitrate=bitrate,
             thumb='http:' + channel['asset_url']
         ))
 
@@ -90,6 +94,7 @@ def CreateChannelObject(
         title,
         summary,
         fmt,
+        bitrate,
         thumb,
         include_container=False
     ):
@@ -98,21 +103,29 @@ def CreateChannelObject(
     if fmt == 'mp3':
         container = Container.MP3
         audio_codec = AudioCodec.MP3
-    elif fmt == 'aac':      # Maybe this will work in the future.
+    elif fmt == 'aac':
         container = Container.MP4
         audio_codec = AudioCodec.AAC
+
+    # Display details for debugging purposes.
+    debug_summary = []
+    debug_summary.append(summary)
+    if Prefs['debug']:
+        debug_summary.append('[%s, %s]' % (fmt, bitrate))
+        debug_summary.append('[%s]' % url)
 
     track_object = TrackObject(
         key=Callback(CreateChannelObject,
             url=url,
             title=title,
-            summary=summary,
+            summary=' '.join(debug_summary),
             fmt=fmt,
+            bitrate=bitrate,
             include_container=True
             ),
         rating_key=url,
         title=title,
-        summary=summary,
+        summary=' '.join(debug_summary),
         thumb=thumb,
         items=[
             MediaObject(
@@ -121,8 +134,9 @@ def CreateChannelObject(
                 ],
                 container=container,
                 audio_codec=audio_codec,
-                bitrate=128,    # this is never correct :P
-                audio_channels=2
+                bitrate=bitrate,
+                audio_channels=2,
+                optimized_for_streaming=True
             )
         ]
     )

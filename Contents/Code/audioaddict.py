@@ -14,25 +14,82 @@ class AudioAddict:
         """Init. You know."""
 
         self.listenkey = None
+
+        # Valid streaming services according to audioaddict.com.
         self.validservices = {
-                'sky': 'Sky.fm',
-                'di': 'DI.fm',
-                'jazzradio': 'JazzRadio.com',
-                'rockradio': 'RockRadio.com'
-                }
-        self.apihost = 'api.audioaddict.com'
-        self.service = None
-        self.chanlist = []
-        # Can't get AAC to play back, so MP3-only for now.
-        self.validstreams = [
-                'public3',
-                'premium_high',
-                'android_premium_high' # rockradio only
-                ]
-        # public3 is the only endpoint common to all services.
+            'sky': 'Sky.fm',
+            'di': 'DI.fm',
+            'jazzradio': 'JazzRadio.com',
+            'rockradio': 'RockRadio.com'
+        }
+
+        # Each service proposes a selection of stream types.
+        # It's worth noting that public3 is the *only* common type.
+        self.validstreams = {
+            'di': {
+                'android_low':              {'codec': 'aac', 'bitrate':  40},
+                'android':                  {'codec': 'aac', 'bitrate':  64},
+                'android_high':             {'codec': 'mp3', 'bitrate':  96},
+                'android_premium_low':      {'codec': 'aac', 'bitrate':  40},
+                'android_premium_medium':   {'codec': 'aac', 'bitrate':  64},
+                'android_premium':          {'codec': 'aac', 'bitrate': 128},
+                'android_premium_high':     {'codec': 'mp3', 'bitrate': 256},
+                'public1':                  {'codec': 'aac', 'bitrate':  64},
+                'public2':                  {'codec': 'aac', 'bitrate':  40},
+                'public3':                  {'codec': 'mp3', 'bitrate':  96},
+                'premium_low':              {'codec': 'aac', 'bitrate':  40},
+                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
+                'premium':                  {'codec': 'aac', 'bitrate': 128},
+                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+           },
+            'sky': {
+                'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
+                'appleapp':                 {'codec': 'aac', 'bitrate':  64},
+                'appleapp_high':            {'codec': 'mp3', 'bitrate':  96},
+                'appleapp_premium_medium':  {'codec': 'aac', 'bitrate':  64},
+                'appleapp_premium':         {'codec': 'aac', 'bitrate': 128},
+                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 256},
+                'public1':                  {'codec': 'aac', 'bitrate':  40},
+                'public3':                  {'codec': 'mp3', 'bitrate':  96},
+                'public5':                  {'codec': 'wma', 'bitrate':  40},
+                'premium_low':              {'codec': 'aac', 'bitrate':  40},
+                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
+                'premium':                  {'codec': 'aac', 'bitrate': 128},
+                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+           },
+            'jazzradio': {
+                'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
+                'appleapp':                 {'codec': 'aac', 'bitrate':  64},
+                'appleapp_premium_medium':  {'codec': 'aac', 'bitrate':  64},
+                'appleapp_premium':         {'codec': 'aac', 'bitrate': 128},
+                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 256},
+                'public1':                  {'codec': 'aac', 'bitrate':  40},
+                'public3':                  {'codec': 'mp3', 'bitrate':  64},
+                'premium_low':              {'codec': 'aac', 'bitrate':  40},
+                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
+                'premium':                  {'codec': 'aac', 'bitrate': 128},
+                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+           },
+            'rockradio': {
+                'android_low':              {'codec': 'aac', 'bitrate':  40},
+                'android':                  {'codec': 'aac', 'bitrate':  64},
+                'android_premium_medium':   {'codec': 'aac', 'bitrate':  64},
+                'android_premium':          {'codec': 'aac', 'bitrate': 128},
+                'android_premium_high':     {'codec': 'mp3', 'bitrate': 256},
+                'public3':                  {'codec': 'mp3', 'bitrate':  96},
+           }
+        }
+
         self.streampref = 'public3'
         self.sourcepref = None
-        # The batch endpoint requires a static dummy auth header.
+
+        self.service = None
+        self.chanlist = []
+
+        # All streaming services use a common API service.
+        self.apihost = 'api.audioaddict.com'
+
+        # The batch API endpoint requires a static dummy auth header.
         self.authheader = ['Authorization', 'Basic ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA=']
         self.batchinfo = {}
 
@@ -96,7 +153,7 @@ class AudioAddict:
         return self.validservices[serv]
 
     def get_validstreams(self):
-        """Get the list of valid streams."""
+        """Get the list of valid streams (extended mix)."""
 
         return self.validstreams
 
@@ -112,12 +169,24 @@ class AudioAddict:
         return url
 
     def set_streampref(self, stream=None):
-        """Set the preferred stream."""
+        """Set the preferred stream (extended mix)."""
 
-        if not stream in self.get_validstreams():
+        if not stream in self.get_validstreams()[self.get_service()]:
             raise Exception('Invalid stream')
 
         self.streampref = stream
+
+    def get_streamdetails(self):
+        """Get the details for a stream (extended mix)."""
+
+        details = {}
+        validstreams = self.get_validstreams()
+        stream = self.get_streampref()
+
+        if stream in validstreams[self.get_service()]:
+            details = validstreams[self.get_service()][stream]
+
+        return details
 
     def get_streampref(self):
         """Get the preferred stream."""
@@ -139,8 +208,6 @@ class AudioAddict:
 
         if len(self.chanlist) < 1 or refresh == True:
             try:
-                # Pull from public3 because it's the only endpoint common to
-                # all services.
                 data = urllib2.urlopen(self.get_serviceurl() + '/' + self.get_streampref())
                 self.chanlist = json.loads(data.read())
             except Exception:

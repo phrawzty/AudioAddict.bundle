@@ -16,5 +16,17 @@
         "type": "text",
         "label": "Preferred Source",
         "default": ""
+    },
+    {
+        "id": "force_refresh",
+        "type": "bool",
+        "label": "Force Refresh",
+        "default": "False"
+    },
+    {
+        "id": "debug",
+        "type": "bool",
+        "label": "Debug Output",
+        "default": "False"
     }
 ]
