@@ -17,7 +17,7 @@ class AudioAddict:
 
         # Valid streaming services according to audioaddict.com.
         self.validservices = {
-            'sky': 'Sky.fm',
+            'radiotunes': 'RadioTunes.com',
             'di': 'DI.fm',
             'jazzradio': 'JazzRadio.com',
             'rockradio': 'RockRadio.com'
@@ -42,7 +42,7 @@ class AudioAddict:
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
                 'premium_high':             {'codec': 'mp3', 'bitrate': 256}
            },
-            'sky': {
+            'radiotunes': {
                 'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
                 'appleapp':                 {'codec': 'aac', 'bitrate':  64},
                 'appleapp_high':            {'codec': 'mp3', 'bitrate':  96},
@@ -153,7 +153,7 @@ class AudioAddict:
         return self.validservices[serv]
 
     def get_validstreams(self):
-        """Get the list of valid streams (extended mix)."""
+        """Get the list of valid streams."""
 
         return self.validstreams
 
@@ -169,7 +169,7 @@ class AudioAddict:
         return url
 
     def set_streampref(self, stream=None):
-        """Set the preferred stream (extended mix)."""
+        """Set the preferred stream."""
 
         if not stream in self.get_validstreams()[self.get_service()]:
             raise Exception('Invalid stream')
@@ -177,7 +177,7 @@ class AudioAddict:
         self.streampref = stream
 
     def get_streamdetails(self):
-        """Get the details for a stream (extended mix)."""
+        """Get the details for a stream."""
 
         details = {}
         validstreams = self.get_validstreams()
