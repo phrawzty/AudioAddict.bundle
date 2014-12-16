@@ -61,7 +61,7 @@ def GetChannels(serv):
     # Set some preferences. It really makes life easier if they're set.
     AA.set_service(serv)
     AA.set_listenkey(Prefs['listen_key'])
-    AA.set_streampref(Prefs['stream_pref'])
+    AA.set_streampref(Prefs['stream_pref_' + serv])
     AA.set_sourcepref(Prefs['source_pref'])
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
