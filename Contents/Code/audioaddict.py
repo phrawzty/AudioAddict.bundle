@@ -33,14 +33,14 @@ class AudioAddict:
                 'android_premium_low':      {'codec': 'aac', 'bitrate':  40},
                 'android_premium_medium':   {'codec': 'aac', 'bitrate':  64},
                 'android_premium':          {'codec': 'aac', 'bitrate': 128},
-                'android_premium_high':     {'codec': 'mp3', 'bitrate': 256},
+                'android_premium_high':     {'codec': 'mp3', 'bitrate': 320},
                 'public1':                  {'codec': 'aac', 'bitrate':  64},
                 'public2':                  {'codec': 'aac', 'bitrate':  40},
                 'public3':                  {'codec': 'mp3', 'bitrate':  96},
                 'premium_low':              {'codec': 'aac', 'bitrate':  40},
                 'premium_medium':           {'codec': 'aac', 'bitrate':  64},
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+                'premium_high':             {'codec': 'mp3', 'bitrate': 320}
            },
             'radiotunes': {
                 'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
@@ -48,14 +48,14 @@ class AudioAddict:
                 'appleapp_high':            {'codec': 'mp3', 'bitrate':  96},
                 'appleapp_premium_medium':  {'codec': 'aac', 'bitrate':  64},
                 'appleapp_premium':         {'codec': 'aac', 'bitrate': 128},
-                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 256},
+                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 320},
                 'public1':                  {'codec': 'aac', 'bitrate':  40},
                 'public3':                  {'codec': 'mp3', 'bitrate':  96},
                 'public5':                  {'codec': 'wma', 'bitrate':  40},
                 'premium_low':              {'codec': 'aac', 'bitrate':  40},
                 'premium_medium':           {'codec': 'aac', 'bitrate':  64},
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+                'premium_high':             {'codec': 'mp3', 'bitrate': 320}
            },
             'jazzradio': {
                 'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
