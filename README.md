@@ -1,6 +1,6 @@
 # AudioAddict.bundle
 
-Plex channel plugin for AudioAddict (sky.fm, di.fm, etc.)
+Plex channel plugin for AudioAddict (radiotunes.com, di.fm, etc.)
 
 # Preferences
 
@@ -8,7 +8,7 @@ There are some preferences that can be set:
 
 * __Listen Key__: Your unique key, functionally used as an auth and ident token. It can be obtained from the "player settings -> hardware player" section of your favourite AA service. Example: http://www.radiotunes.com/settings
 * __Preferred Streams__: These corresponds to the "sound quality & bandwidth" option of the AA service. AAC support is sort of wonky (works on some devices, not on others), so your only safe options (read: MP3) are `public3` and `premium_high` (except RockRadio, which uses `android_premium_high` for some reason).
-* __Preferred Source__: This corresponds to the regional server that you want to stream. You're not obligated to set this, but if you're having bandwidth issues it might help. `pub` and `prem1` are in the USA, `prem2` is in Europe, and `prem3` is in SE Asia (possibly Singapore).
+* __Preferred Source__: This corresponds to the regional server that you want to stream. You're not obligated to set this, but if you're having bandwidth issues it might help. `pub1` and `prem1` are in the USA, `prem2` is in Europe, and `prem3` is in SE Asia (possibly Singapore).
 
 # Does it work?
 
