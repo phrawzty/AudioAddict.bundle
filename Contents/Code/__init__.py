@@ -121,6 +121,7 @@ def CreateChannelObject(
             summary=' '.join(debug_summary),
             fmt=fmt,
             bitrate=bitrate,
+            thumb=thumb,
             include_container=True
             ),
         rating_key=url,
