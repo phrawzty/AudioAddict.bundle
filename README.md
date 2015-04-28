@@ -19,4 +19,5 @@ Your mileage may vary.
 # AudioAddict API
 
 The sum total of all public knowledge concerning the AA API used to be available [here](http://tobiass.eu/api-doc.html); however, the server disappeared without a trace sometime in 2014.  There is an archived copy available on the [wayback machine](https://web.archive.org/web/20140426192326/http://tobiass.eu/api-doc.html).
-This plugin would have been impossible without that document, so a big thank-you to whomever wrote it in the first place.
+
+The API documentation has since re-appeared at [difm.eu](https://difm.eu/dox/).
