@@ -1,7 +1,6 @@
 """AudioAddict utility class."""
 
-# pylint: disable=line-too-long, old-style-class, broad-except
-# This is based entirely on http://tobiass.eu/api-doc.html (thanks!)
+# pylint: disable=line-too-long, old-style-class, broad-except, too-many-instance-attributes
 
 import urllib2
 import json
@@ -20,7 +19,8 @@ class AudioAddict:
             'radiotunes': 'RadioTunes.com',
             'di': 'DI.fm',
             'jazzradio': 'JazzRadio.com',
-            'rockradio': 'RockRadio.com'
+            'rockradio': 'RockRadio.com',
+            'classicalradio': 'ClassicalRadio.com'
         }
 
         # Each service proposes a selection of stream types.
@@ -41,7 +41,7 @@ class AudioAddict:
                 'premium_medium':           {'codec': 'aac', 'bitrate':  64},
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
                 'premium_high':             {'codec': 'mp3', 'bitrate': 320}
-           },
+            },
             'radiotunes': {
                 'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
                 'appleapp':                 {'codec': 'aac', 'bitrate':  64},
@@ -56,7 +56,7 @@ class AudioAddict:
                 'premium_medium':           {'codec': 'aac', 'bitrate':  64},
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
                 'premium_high':             {'codec': 'mp3', 'bitrate': 320}
-           },
+            },
             'jazzradio': {
                 'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
                 'appleapp':                 {'codec': 'aac', 'bitrate':  64},
@@ -69,7 +69,7 @@ class AudioAddict:
                 'premium_medium':           {'codec': 'aac', 'bitrate':  64},
                 'premium':                  {'codec': 'aac', 'bitrate': 128},
                 'premium_high':             {'codec': 'mp3', 'bitrate': 256}
-           },
+            },
             'rockradio': {
                 'android_low':              {'codec': 'aac', 'bitrate':  40},
                 'android':                  {'codec': 'aac', 'bitrate':  64},
@@ -77,7 +77,15 @@ class AudioAddict:
                 'android_premium':          {'codec': 'aac', 'bitrate': 128},
                 'android_premium_high':     {'codec': 'mp3', 'bitrate': 256},
                 'public3':                  {'codec': 'mp3', 'bitrate':  96},
-           }
+            },
+            'classicalradio': {
+                'public1':                  {'codec': 'aac', 'bitrate':  40},
+                'public3':                  {'codec': 'mp3', 'bitrate':  64},
+                'premium_low':              {'codec': 'aac', 'bitrate':  40},
+                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
+                'premium':                  {'codec': 'aac', 'bitrate': 128},
+                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
+            }
         }
 
         self.streampref = 'public3'

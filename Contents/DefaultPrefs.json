@@ -94,6 +94,20 @@
         "default": "public3"
     },
     {
+        "id": "stream_pref_classicalradio",
+        "type": "enum",
+        "label": "ClassicalRadio.com Preferred Stream",
+        "values": [
+            "public1",
+            "public3",
+            "premium_low",
+            "premium_medium",
+            "premium",
+            "premium_high"
+        ],
+        "default": "public3"
+    },
+    {
         "id": "force_refresh",
         "type": "bool",
         "label": "Force Refresh",
