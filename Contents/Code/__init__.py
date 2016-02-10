@@ -15,7 +15,7 @@ NAME = 'AudioAddict'
 # these filenames reference the example files in
 # the Contents/Resources/ folder in the bundle
 ART = 'art-default.jpg'
-ICON = 'icon-default.png'
+ICON = 'icon-default.jpg'
 
 ####################################################################################################
 
