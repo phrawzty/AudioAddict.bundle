@@ -86,6 +86,7 @@ def GetChannels(serv):
             thumb='http:' + channel['asset_url']
         ))
 
+    oc.objects.sort(key=lambda obj: obj.title)
     return oc
 
 @route(MUSIC_PREFIX + '/channel')
