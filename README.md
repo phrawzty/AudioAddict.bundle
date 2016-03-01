@@ -16,9 +16,23 @@ There are some preferences that can be set:
 * __Force Refresh__: This will, as the name implies, force a refresh of the service information next time you access it. In practice, this should be used if you modify either (or both) of the _Source_ or _Stream_ preferences at any time. It is possible that this will _appear_ to cause an error of some type (this is due to timeout issues that have been totally ignored. sorry.), but it probably worked. Remember to turn it off when you're done.
 * __Debug__: This will cause additional debug output to be generated - some of it will be visible in the interface, but most of it goes into the logs.
 
-# Does it work?
+# FAQ
 
-Yes! :smile: For reference, I run Plex on a Ubuntu 14.04 LTS box, and I access it using the Android client, the Plex for Samsung TV app, and via Firefox on my MacBook.  Members of the [community](https://forums.plex.tv/index.php/topic/107801-audioaddict-skyfm-difm-etc/) have reported success with Chromecast as well.
+##### Where is the Plex Forum post for this plugin?
+
+https://forums.plex.tv/discussion/107801/rel-audioaddict-radiotunes-com-di-fm-etc/p1
+
+##### I can't play the stream and/or I get a codec error - what's the deal?
+
+As noted above, AAC support is inconsistent across devices, browsers, and clients.The only "safe" option is to use an MP3 stream (though AAC does sometimes work).
+
+##### I changed settings such as Preferred Stream in the preferences, but it didn't seem to do anything.
+
+As noted above, any time you change a setting in preferences, you'll need to Force Refresh the service(s) you're interested in. Don't worry if it seems like it timed out the first time, and don't forget to turn this flag back off when you're done.
+
+##### Does this work in Chromecast / iPad / HT / (insert whatever architecture you've got)?
+
+Probably (see AAC vs. MP3 above, however).
 
 # AudioAddict API
 
