@@ -22,6 +22,10 @@ There are some preferences that can be set:
 
 https://forums.plex.tv/discussion/107801/rel-audioaddict-radiotunes-com-di-fm-etc/p1
 
+##### Do I need a Premium account?
+
+Yes. You need a Premium account in order to get the __Listen Key__. Without that key, all you get are the free streams, which - while technically functional - no longer have music on them (just a message on loop).
+
 ##### I can't play the stream and/or I get a codec error - what's the deal?
 
 As noted above, AAC support is inconsistent across devices, browsers, and clients.The only "safe" option is to use an MP3 stream (though AAC does sometimes work).
