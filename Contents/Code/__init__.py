@@ -97,7 +97,8 @@ def CreateChannelObject(
         fmt,
         bitrate,
         thumb,
-        include_container=False
+        include_container=False,
+        includeBandwidths=0
     ):
     """Build yon streamable object, ye mighty."""
 
