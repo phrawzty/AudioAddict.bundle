@@ -1,6 +1,6 @@
 # AudioAddict.bundle
 
-This is a Plex [Channel plugin](https://support.plex.tv/hc/en-us/categories/200109616-Channels) that offers a nice interface to the [AudioAddict](http://www.audioaddict.com/) family of music streaming sites, including [DI.fm](http://di.fm), [RadioTunes.com](http://radiotunes.com) (formerly Sky.fm), and others.
+This is a Plex [Channel plugin](https://support.plex.tv/hc/en-us/categories/200109616-Channels) that offers a nice interface to the [AudioAddict](http://www.audioaddict.com/) family of music streaming sites, including [DI.fm](http://di.fm) (aka Digitally Imported), [RadioTunes.com](http://radiotunes.com) (formerly Sky.fm), and others.
 
 # Install
 
@@ -41,5 +41,3 @@ Probably (see AAC vs. MP3 above, however).
 # AudioAddict API
 
 The sum total of all public knowledge concerning the AA API used to be available [here](http://tobiass.eu/api-doc.html); however, the server disappeared without a trace sometime in 2014.  There is an archived copy available on the [wayback machine](https://web.archive.org/web/20140426192326/http://tobiass.eu/api-doc.html).
-
-The API documentation has since re-appeared at [difm.eu](https://difm.eu/dox/).
