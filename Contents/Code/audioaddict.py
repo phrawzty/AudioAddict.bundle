@@ -295,7 +295,20 @@ class AudioAddict:
 
         req = urllib2.Request(url)
         req.add_header(*self.authheader)
-        data = urllib2.urlopen(req).read()
+        # AA started gzip compressing (just) this response in June 2017.
+        req.add_header('Accept-Encoding', 'gzip')
+
+        response = urllib2.urlopen(req)
+
+        # This may or may not be a permanent change, so we'll wrap this in a
+        # conditional for now. Also, if other endpoints start returning gzip'd
+        # data, this should be implemented more generically. OK for today tho.
+        if response.info().get('Content-Encoding') == 'gzip':
+            from StringIO import StringIO
+            import gzip
+            buf = StringIO(response.read())
+            obj = gzip.GzipFile(fileobj=buf)
+            data = obj.read()
 
         batch = json.loads(data)
 
