@@ -82,6 +82,7 @@ def GetChannels(serv):
             title=channel['name'],
             summary=channel['description'],
             fmt=fmt,
+            own=1,
             bitrate=bitrate,
             thumb='http:' + channel['asset_url']
         ))
@@ -96,6 +97,7 @@ def CreateChannelObject(
         summary,
         fmt,
         bitrate,
+        own,
         thumb,
         include_container=False,
         includeBandwidths=0
@@ -122,6 +124,7 @@ def CreateChannelObject(
             title=title,
             summary=' '.join(debug_summary),
             fmt=fmt,
+            own=1,
             bitrate=bitrate,
             thumb=thumb,
             include_container=True
