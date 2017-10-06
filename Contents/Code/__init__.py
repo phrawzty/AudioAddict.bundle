@@ -100,7 +100,7 @@ def CreateChannelObject(
         own,
         thumb,
         include_container=False,
-        includeBandwidths=0
+        **kwargs
     ):
     """Build yon streamable object, ye mighty."""
 
