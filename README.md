@@ -28,11 +28,11 @@ Yes. You need a Premium account in order to get the __Listen Key__. Without that
 
 ##### I can't play the stream and/or I get a codec error - what's the deal?
 
-As noted above, AAC support is inconsistent across devices, browsers, and clients.The only "safe" option is to use an MP3 stream (though AAC does sometimes work).
+As noted above, AAC support is inconsistent across devices, browsers, and clients. The only "safe" option is to use an MP3 stream (though AAC does often work).
 
 ##### I changed settings such as Preferred Stream in the preferences, but it didn't seem to do anything.
 
-As noted above, any time you change a setting in preferences, you'll need to Force Refresh the service(s) you're interested in. Don't worry if it seems like it timed out the first time, and don't forget to turn this flag back off when you're done.
+As noted above, any time you change a setting in preferences, you'll need to Force Refresh the service(s) you're interested in. Don't worry if it seems like it timed out the first time, and don't forget to _turn this flag back off when you're done_.
 
 ##### Does this work in Chromecast / iPad / HT / (insert whatever architecture you've got)?
 
