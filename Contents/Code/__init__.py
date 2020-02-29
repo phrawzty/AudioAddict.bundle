@@ -19,22 +19,23 @@ ICON = 'icon-default.jpg'
 
 ####################################################################################################
 
+
 def Start():
     """This is called when the plugin is loaded."""
 
-    ## set some defaults so that you don't have to
-    ## pass these parameters to these object types
-    ## every single time
-    ## see also:
-    ##  http://dev.plexapp.com/docs/Objects.html
+    # set some defaults so that you don't have to
+    # pass these parameters to these object types
+    # every single time
+    # see also:
+    #  http://dev.plexapp.com/docs/Objects.html
     ObjectContainer.title1 = NAME
     DirectoryObject.thumb = R(ICON)
 
     HTTP.CacheTime = CACHE_1HOUR
 
+
 def ValidatePrefs():
     """This doesn't do anything useful yet."""
-
     pass
 
 
@@ -54,6 +55,7 @@ def MusicMainMenu():
 
     return oc
 
+
 @route(MUSIC_PREFIX + '/service')
 def GetChannels(serv):
     """This produces the list of channels for a given service."""
@@ -61,7 +63,7 @@ def GetChannels(serv):
     # Set some preferences. It really makes life easier if they're set.
     AA.set_service(serv)
     AA.set_listenkey(Prefs['listen_key'])
-    AA.set_streampref(Prefs['stream_pref_' + serv])
+    AA.set_streampref(Prefs['stream_pref'])
     AA.set_sourcepref(Prefs['source_pref'])
 
     oc = ObjectContainer(title1=AA.get_servicename(serv))
@@ -72,15 +74,15 @@ def GetChannels(serv):
     for channel in AA.get_batchinfo(refresh=True):
         # Use the handy internal Dict api to avoid re-generating the streamurl
         # over and over.
-        if (not channel['key'] in Dict) or (Prefs['force_refresh'] == True):
-            Dict[channel['key']] = AA.get_streamurl(channel['key'])
+        if (not channel['key'] in Dict) or (Prefs['force_refresh'] is True):
+            Dict[channel['key']] = channel['streamurl']
             if Prefs['debug']:
                 Log.Debug('saving %s' % Dict[channel['key']])
 
         oc.add(CreateChannelObject(
             url=Dict[channel['key']],
             title=channel['name'],
-            summary=channel['description'],
+            summary=channel['description_long'] or channel['description'],
             fmt=fmt,
             own=1,
             bitrate=bitrate,
@@ -89,6 +91,7 @@ def GetChannels(serv):
 
     oc.objects.sort(key=lambda obj: obj.title)
     return oc
+
 
 @route(MUSIC_PREFIX + '/channel')
 def CreateChannelObject(
@@ -101,7 +104,7 @@ def CreateChannelObject(
         thumb,
         include_container=False,
         **kwargs
-    ):
+        ):
     """Build yon streamable object, ye mighty."""
 
     if fmt == 'mp3':
@@ -119,7 +122,8 @@ def CreateChannelObject(
         debug_summary.append('[%s]' % url)
 
     track_object = TrackObject(
-        key=Callback(CreateChannelObject,
+        key=Callback(
+            CreateChannelObject,
             url=url,
             title=title,
             summary=' '.join(debug_summary),

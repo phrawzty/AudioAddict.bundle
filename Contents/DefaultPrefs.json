@@ -13,99 +13,20 @@
             "prem1",
             "prem2",
             "prem3",
-            "pub1",
+            "prem4"
         ],
-        "default": "pub1"
+        "default": "prem1"
     },
     {
-        "id": "stream_pref_di",
+        "id": "stream_pref",
         "type": "enum",
-        "label": "DI.fm Preferred Stream",
+        "label": "Preferred Stream",
         "values": [
-            "android_low",
-            "android",
-            "android_high",
-            "android_premium_low",
-            "android_premium_medium",
-            "android_premium",
-            "android_premium_high",
-            "public1",
-            "public2",
-            "public3",
-            "premium_low",
             "premium_medium",
             "premium",
             "premium_high"
         ],
-        "default": "public3"
-    },
-    {
-        "id": "stream_pref_radiotunes",
-        "type": "enum",
-        "label": "RadioTunes.com Preferred Stream",
-        "values": [
-            "appleapp_low",
-            "appleapp",
-            "appleapp_high",
-            "appleapp_premium_medium",
-            "appleapp_premium",
-            "appleapp_premium_high",
-            "public1",
-            "public3",
-            "public5",
-            "premium_low",
-            "premium_medium",
-            "premium",
-            "premium_high"
-        ],
-        "default": "public3"
-    },
-    {
-        "id": "stream_pref_jazzradio",
-        "type": "enum",
-        "label": "JazzRadio.com Preferred Stream",
-        "values": [
-            "appleapp_low",
-            "appleapp",
-            "appleapp_premium_medium",
-            "appleapp_premium",
-            "appleapp_premium_high",
-            "public1",
-            "public3",
-            "premium_low",
-            "premium_medium",
-            "premium",
-            "premium_high"
-        ],
-        "default": "public3"
-    },
-    {
-        "id": "stream_pref_rockradio",
-        "type": "enum",
-        "label": "RockRadio.com Preferred Stream",
-        "values": [
-            "android_low",
-            "android",
-            "android_premium_medium",
-            "android_premium",
-            "android_premium_high",
-            "public3"
-        ],
-        "default": "public3"
-    },
-    {
-        "id": "stream_pref_classicalradio",
-        "type": "enum",
-        "label": "ClassicalRadio.com Preferred Stream",
-        "values": [
-            "public1",
-            "public3",
-            "premium_low",
-            "premium_medium",
-            "premium",
-            "premium_high"
-        ],
-        "default": "public3"
+        "default": "premium_high"
     },
     {
         "id": "force_refresh",
