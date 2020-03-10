@@ -6,6 +6,7 @@ import urllib2
 import json
 import random
 
+
 class AudioAddict:
     """AudioAddict utility class."""
 
@@ -20,75 +21,19 @@ class AudioAddict:
             'di': 'DI.fm',
             'jazzradio': 'JazzRadio.com',
             'rockradio': 'RockRadio.com',
-            'classicalradio': 'ClassicalRadio.com'
+            'classicalradio': 'ClassicalRadio.com',
+            # 'zenradio': 'ZenRadio.com',
         }
 
         # Each service proposes a selection of stream types.
         # It's worth noting that public3 is the *only* common type.
         self.validstreams = {
-            'di': {
-                'android_low':              {'codec': 'aac', 'bitrate':  40},
-                'android':                  {'codec': 'aac', 'bitrate':  64},
-                'android_high':             {'codec': 'mp3', 'bitrate':  96},
-                'android_premium_low':      {'codec': 'aac', 'bitrate':  40},
-                'android_premium_medium':   {'codec': 'aac', 'bitrate':  64},
-                'android_premium':          {'codec': 'aac', 'bitrate': 128},
-                'android_premium_high':     {'codec': 'mp3', 'bitrate': 320},
-                'public1':                  {'codec': 'aac', 'bitrate':  64},
-                'public2':                  {'codec': 'aac', 'bitrate':  40},
-                'public3':                  {'codec': 'mp3', 'bitrate':  96},
-                'premium_low':              {'codec': 'aac', 'bitrate':  40},
-                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
-                'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 320}
-            },
-            'radiotunes': {
-                'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
-                'appleapp':                 {'codec': 'aac', 'bitrate':  64},
-                'appleapp_high':            {'codec': 'mp3', 'bitrate':  96},
-                'appleapp_premium_medium':  {'codec': 'aac', 'bitrate':  64},
-                'appleapp_premium':         {'codec': 'aac', 'bitrate': 128},
-                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 320},
-                'public1':                  {'codec': 'aac', 'bitrate':  40},
-                'public3':                  {'codec': 'mp3', 'bitrate':  96},
-                'public5':                  {'codec': 'wma', 'bitrate':  40},
-                'premium_low':              {'codec': 'aac', 'bitrate':  40},
-                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
-                'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 320}
-            },
-            'jazzradio': {
-                'appleapp_low':             {'codec': 'aac', 'bitrate':  40},
-                'appleapp':                 {'codec': 'aac', 'bitrate':  64},
-                'appleapp_premium_medium':  {'codec': 'aac', 'bitrate':  64},
-                'appleapp_premium':         {'codec': 'aac', 'bitrate': 128},
-                'appleapp_premium_high':    {'codec': 'mp3', 'bitrate': 256},
-                'public1':                  {'codec': 'aac', 'bitrate':  40},
-                'public3':                  {'codec': 'mp3', 'bitrate':  64},
-                'premium_low':              {'codec': 'aac', 'bitrate':  40},
-                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
-                'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
-            },
-            'rockradio': {
-                'android_low':              {'codec': 'aac', 'bitrate':  40},
-                'android':                  {'codec': 'aac', 'bitrate':  64},
-                'android_premium_medium':   {'codec': 'aac', 'bitrate':  64},
-                'android_premium':          {'codec': 'aac', 'bitrate': 128},
-                'android_premium_high':     {'codec': 'mp3', 'bitrate': 256},
-                'public3':                  {'codec': 'mp3', 'bitrate':  96},
-            },
-            'classicalradio': {
-                'public1':                  {'codec': 'aac', 'bitrate':  40},
-                'public3':                  {'codec': 'mp3', 'bitrate':  64},
-                'premium_low':              {'codec': 'aac', 'bitrate':  40},
-                'premium_medium':           {'codec': 'aac', 'bitrate':  64},
-                'premium':                  {'codec': 'aac', 'bitrate': 128},
-                'premium_high':             {'codec': 'mp3', 'bitrate': 256}
-            }
+            'premium_medium':           {'codec': 'aac', 'bitrate':  64},
+            'premium':                  {'codec': 'aac', 'bitrate': 128},
+            'premium_high':             {'codec': 'mp3', 'bitrate': 320},
         }
 
-        self.streampref = 'public3'
+        self.streampref = 'premium_high'
         self.sourcepref = None
 
         self.service = None
@@ -101,15 +46,15 @@ class AudioAddict:
         self.authheader = ['Authorization', 'Basic ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA=']
         self.batchinfo = {}
 
-    def get_apihost(self, url=True, ssl=False):
+    def get_apihost(self, host_only=False, ssl=False):
         """Get the AA API host; normally used as part of a URL."""
 
-        if url == False:
+        if host_only:
             return self.apihost
 
         obj = '://' + self.apihost + '/v1'
 
-        if ssl == True:
+        if ssl:
             obj = 'https' + obj
         else:
             obj = 'http' + obj
@@ -121,12 +66,12 @@ class AudioAddict:
 
         self.listenkey = listenkey
 
-    def get_listenkey(self, url=True):
+    def get_listenkey(self, key_only=False):
         """Get the listen_key; normally used as part of a URL."""
 
-        if self.listenkey == None:
+        if not self.listenkey:
             return ''
-        elif url == False:
+        elif key_only:
             return self.listenkey
         else:
             return '?listen_key=' + self.listenkey
@@ -139,7 +84,7 @@ class AudioAddict:
     def set_service(self, serv=None):
         """Set which service we're using."""
 
-        if not serv in self.validservices.keys():
+        if serv not in self.validservices.keys():
             raise Exception('Invalid service')
 
         self.service = serv
@@ -152,10 +97,10 @@ class AudioAddict:
     def get_servicename(self, serv=None):
         """Get the name of a given service."""
 
-        if serv == None:
+        if not serv:
             serv = self.get_service()
 
-        if not serv in self.get_validservices().keys():
+        if serv not in self.get_validservices().keys():
             raise Exception('Invalid service')
 
         return self.validservices[serv]
@@ -168,7 +113,7 @@ class AudioAddict:
     def get_serviceurl(self, serv=None, prefix='listen'):
         """Get the service URL for the service we're using."""
 
-        if serv == None:
+        if not serv:
             serv = self.get_service()
 
         url = 'http://' + prefix + '.' + self.get_servicename(serv)
@@ -179,7 +124,7 @@ class AudioAddict:
     def set_streampref(self, stream=None):
         """Set the preferred stream."""
 
-        if not stream in self.get_validstreams()[self.get_service()]:
+        if stream not in self.get_validstreams():
             raise Exception('Invalid stream')
 
         self.streampref = stream
@@ -188,11 +133,10 @@ class AudioAddict:
         """Get the details for a stream."""
 
         details = {}
-        validstreams = self.get_validstreams()
         stream = self.get_streampref()
 
-        if stream in validstreams[self.get_service()]:
-            details = validstreams[self.get_service()][stream]
+        if stream in self.get_validstreams():
+            details = self.get_validstreams()[stream]
 
         return details
 
@@ -214,7 +158,7 @@ class AudioAddict:
     def get_chanlist(self, refresh=False):
         """Get the master channel list."""
 
-        if len(self.chanlist) < 1 or refresh == True:
+        if not self.chanlist or refresh:
             try:
                 data = urllib2.urlopen(self.get_serviceurl() + '/' + self.get_streampref())
                 self.chanlist = json.loads(data.read())
@@ -232,37 +176,16 @@ class AudioAddict:
             if chan['key'] == key:
                 chaninfo = chan.copy()
 
-        if chaninfo == None:
+        if not chaninfo:
             raise Exception('Invalid channel')
 
         return chaninfo
 
-    def get_streamurl(self, key):
-        """Generate a streamable URL for a channel."""
-
-        channelurl = self.get_serviceurl() + '/' + self.get_streampref() + '/' + key + self.get_listenkey()
-
-        data = urllib2.urlopen(channelurl)
-        sources = json.loads(data.read())
-
-        streamurl = None
-
-        # Look through the list for the preferred source.
-        if not self.get_sourcepref() == None:
-            for source in sources:
-                if self.get_sourcepref() in source:
-                    streamurl = source
-
-        # If there is no preferred source or one was not found, pick at random.
-        if streamurl == None:
-            streamurl = (random.choice(sources))
-
-        return streamurl
-
     def get_chanhist(self, key):
         """Get track history for a channel."""
 
-        servurl = self.get_apihost() + '/' + self.get_service() + '/' + 'track_history/channel/' + str(self.get_chaninfo(key)['id'])
+        servurl = self.get_apihost() + '/' + self.get_service() + '/track_history/channel/' + \
+            str(self.get_chaninfo(key)['id'])
 
         data = urllib2.urlopen(servurl)
         history = json.loads(data.read())
@@ -278,7 +201,7 @@ class AudioAddict:
 
         track = 'Unknown - Unknown'
 
-        if not 'ad' in self.get_chanhist(key)[0]:
+        if 'ad' not in self.get_chanhist(key)[0]:
             track = self.get_chanhist(key)[0]['track']
         else:
             track = self.get_chanhist(key)[1]['track']
@@ -288,10 +211,11 @@ class AudioAddict:
     def get_batchinfo(self, refresh=False):
         """Get the massive batch info blob."""
 
-        if (len(self.batchinfo) > 0) and refresh == False:
+        if self.batchinfo and not refresh:
             return self.batchinfo
 
-        url = self.get_apihost() + '/' + self.get_service() + '/mobile/batch_update?stream_set_key=' + self.get_streampref()
+        url = self.get_apihost() + '/' + self.get_service() + '/mobile/batch_update?stream_set_key=' + \
+            self.get_streampref()
 
         req = urllib2.Request(url)
         req.add_header(*self.authheader)
@@ -315,5 +239,23 @@ class AudioAddict:
         # Only the "All" channel filter is interesting for now.
         for i in batch['channel_filters']:
             if i['name'] == 'All':
-                self.batchinfo = i['channels']
+                batchinfo = i['channels']
+                for channel in batchinfo:
+                    for ss_channel in batch['stream_sets'][0]['streamlist']['channels']:
+                        if channel['id'] == ss_channel['id']:
+                            streamurl = None
+                            # Look through the list for the preferred source.
+                            if self.get_sourcepref():
+                                for stream in ss_channel['streams']:
+                                    if self.get_sourcepref() in stream['url']:
+                                        streamurl = stream['url']
+
+                            # If there is no preferred source or one was not found, pick at random.
+                            if not streamurl:
+                                streamurl = random.choice([x['url'] for x in ss_channel['streams']])
+
+                            if streamurl:
+                                channel['streamurl'] = streamurl + '?' + self.get_listenkey(key_only=True)
+
+                self.batchinfo = batchinfo
                 return self.batchinfo
