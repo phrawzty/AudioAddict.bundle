@@ -12,7 +12,7 @@ There are some preferences that can be set:
 
 * __Listen Key__: Your unique key, functionally used as an auth and ident token. It can be obtained from the "player settings → hardware player" section of your favourite AA service. Example: http://www.radiotunes.com/settings
 * __Preferred Source__: This corresponds to the regional server that you want to stream. You're not obligated to set this, but if you're having bandwidth issues it might help. `prem1`, `prem3`, and `prem4` are in the USA, while `prem2` is in Europe.
-* __Preferred Streams__: These correspond to the "sound quality & bandwidth" option of the AA service. AAC support is sort of wonky (works on some devices, not on others), so your only safe options (read: MP3) are `public3` and `premium_high` (except RockRadio, which uses `android_premium_high` for some reason).
+* __Preferred Streams__: These correspond to the "sound quality & bandwidth" option of the AA service. AAC support is sort of wonky (works on some devices, not on others), so your only safe option (read: MP3) is `premium_high`.
 * __Force Refresh__: This will, as the name implies, force a refresh of the service information next time you access it. In practice, this should be used if you modify either (or both) of the _Source_ or _Stream_ preferences at any time. It is possible that this will _appear_ to cause an error of some type (this is due to timeout issues that have been totally ignored. sorry.), but it probably worked. Remember to turn it off when you're done.
 * __Debug__: This will cause additional debug output to be generated - some of it will be visible in the interface, but most of it goes into the logs.
 
