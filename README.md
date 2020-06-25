@@ -2,6 +2,10 @@
 
 This is a Plex [Channel plugin](https://support.plex.tv/hc/en-us/categories/200109616-Channels) that offers a nice interface to the [AudioAddict](http://www.audioaddict.com/) family of music streaming sites, including [DI.fm](http://di.fm) (aka Digitally Imported), [RadioTunes.com](http://radiotunes.com) (formerly Sky.fm), and others.
 
+# Discontinuation of support for plugins
+
+In September of 2018, [Plex officially announced](https://forums.plex.tv/t/discontinuation-of-plugins-watch-later-recommended-and-cloud-sync/312312/4) that the plugin model would be deprecated and "slowly phased out". While plugins can still be manually installed on the server, _client_ support is now spotty at best; as of 2020, the official Plex clients generally do not provide an interface for plugins. Long story short, _this_ plugin technically still works, but you need to use an unoffical client to "see" it, so that might be useful for you—sorry, there's nothing I can about that. :(
+
 # Install
 
 Like most plugins, this is currently "[unsupported](https://support.plex.tv/hc/en-us/articles/201375863-Channels-from-Other-Sources)", so the installation process is manual. See the [official Plex documentation](https://support.plex.tv/hc/en-us/articles/201187656-How-do-I-manually-install-a-channel-) for more information.
