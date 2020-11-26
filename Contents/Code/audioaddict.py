@@ -22,7 +22,7 @@ class AudioAddict:
             'jazzradio': 'JazzRadio.com',
             'rockradio': 'RockRadio.com',
             'classicalradio': 'ClassicalRadio.com',
-            # 'zenradio': 'ZenRadio.com',
+            'zenradio': 'ZenRadio.com',
         }
 
         # Each service proposes a selection of stream types.
