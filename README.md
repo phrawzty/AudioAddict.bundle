@@ -4,7 +4,7 @@ This is a Plex [Channel plugin](https://support.plex.tv/hc/en-us/categories/2001
 
 # Discontinuation of support for plugins
 
-In September of 2018, [Plex officially announced](https://forums.plex.tv/t/discontinuation-of-plugins-watch-later-recommended-and-cloud-sync/312312/4) that the plugin model would be deprecated and "slowly phased out". While plugins can still be manually installed on the server, _client_ support is now spotty at best; as of 2020, the official Plex clients generally do not provide an interface for plugins. Long story short, _this_ plugin technically still works, but you need to use an unoffical client to "see" it, so that might be useful for you—sorry, there's nothing I can about that. :(
+In September of 2018, [Plex officially announced](https://forums.plex.tv/t/discontinuation-of-plugins-watch-later-recommended-and-cloud-sync/312312/4) that the plugin model would be deprecated and "slowly phased out". While plugins can still be manually installed on the server, _client_ support is now spotty at best; as of 2020, the official Plex clients generally do not provide an interface for plugins. Long story short, _this_ plugin technically still works, but you need to use an unoffical client to "see" it—sorry, there's nothing I can about that. :(
 
 # Install
 
@@ -15,10 +15,10 @@ Like most plugins, this is currently "[unsupported](https://support.plex.tv/hc/e
 There are some preferences that can be set:
 
 * __Listen Key__: Your unique key, functionally used as an auth and ident token. It can be obtained from the "player settings → hardware player" section of your favourite AA service. Example: http://www.radiotunes.com/settings
-* __Preferred Source__: This corresponds to the regional server that you want to stream. You're not obligated to set this, but if you're having bandwidth issues it might help. `prem1`, `prem3`, and `prem4` are in the USA, while `prem2` is in Europe.
+* __Preferred Source__: This corresponds to the regional server that you want to stream. You're not obliged to set this, but if you're having bandwidth issues it might help. `prem1`, `prem3`, and `prem4` are in the USA, while `prem2` is in Europe.
 * __Preferred Streams__: These correspond to the "sound quality & bandwidth" option of the AA service. AAC support is sort of wonky (works on some devices, not on others), so your only safe option (read: MP3) is `premium_high`.
-* __Force Refresh__: This will, as the name implies, force a refresh of the service information next time you access it. In practice, this should be used if you modify either (or both) of the _Source_ or _Stream_ preferences at any time. It is possible that this will _appear_ to cause an error of some type (this is due to timeout issues that have been totally ignored. sorry.), but it probably worked. Remember to turn it off when you're done.
-* __Debug__: This will cause additional debug output to be generated - some of it will be visible in the interface, but most of it goes into the logs.
+* __Force Refresh__: This will, as the name implies, force a refresh of the service information next time you access it. In practice, this should be used if you modify either (or both) of the _Source_ or _Stream_ preferences at any time. It is possible that this will _appear_ to cause an error of some type (this is due to timeout issues that have been totally ignored—sorry), but it probably worked. Remember to turn it off when you're done.
+* __Debug__: This will cause additional debug output to be generated—some of it will be visible in the interface, but most of it goes into the logs.
 
 # FAQ
 
@@ -28,7 +28,7 @@ https://forums.plex.tv/discussion/107801/rel-audioaddict-radiotunes-com-di-fm-et
 
 ##### Do I need a Premium account?
 
-Yes. You need a Premium account in order to get the __Listen Key__. Without that key, all you get are the free streams, which - while technically functional - no longer have music on them (just a message on loop).
+Yes. You need a Premium account in order to get the __Listen Key__. Without that key, all you get are the free streams, which no longer have music on them (just a message on a loop).
 
 ##### I can't play the stream and/or I get a codec error - what's the deal?
 
