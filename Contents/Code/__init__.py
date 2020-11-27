@@ -29,7 +29,6 @@ def Start():
     # see also:
     #  http://dev.plexapp.com/docs/Objects.html
     ObjectContainer.title1 = NAME
-    DirectoryObject.thumb = R(ICON)
 
     HTTP.CacheTime = CACHE_1HOUR
 
@@ -48,10 +47,13 @@ def MusicMainMenu():
     services = AA.get_validservices()
 
     for serv in sorted(services, key=services.get):
-        oc.add(DirectoryObject(
-            key=Callback(GetChannels, serv=serv),
-            title=services[serv]
-        ))
+        oc.add(
+            DirectoryObject(
+                key=Callback(GetChannels, serv=serv),
+                title=services[serv],
+                thumb=R(serv + '.png')
+            )
+        )
 
     return oc
 
@@ -95,16 +97,16 @@ def GetChannels(serv):
 
 @route(MUSIC_PREFIX + '/channel')
 def CreateChannelObject(
-        url,
-        title,
-        summary,
-        fmt,
-        bitrate,
-        own,
-        thumb,
-        include_container=False,
-        **kwargs
-        ):
+    url,
+    title,
+    summary,
+    fmt,
+    bitrate,
+    own,
+    thumb,
+    include_container=False,
+    **kwargs
+):
     """Build yon streamable object, ye mighty."""
 
     if fmt == 'mp3':
@@ -132,7 +134,7 @@ def CreateChannelObject(
             bitrate=bitrate,
             thumb=thumb,
             include_container=True
-            ),
+        ),
         rating_key=url,
         title=title,
         summary=' '.join(debug_summary),
